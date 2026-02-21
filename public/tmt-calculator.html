@@ -382,6 +382,7 @@
             <ul class="nav-links" role="list">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
+                <li><a href="prices.html">Today's Price</a></li>
                 <li class="nav-dropdown">
                     <a href="products.html" class="nav-dropdown-toggle">Products ▾</a>
                     <ul class="nav-dropdown-menu">
@@ -430,18 +431,18 @@
             <!-- Price Strip -->
             <div class="price-strip">
                 <div class="price-strip-item">
-                    <div class="val">₹69,000</div>
-                    <div class="lbl">Price / MT (SAIL Fe 500)</div>
+                    <div class="val" id="strip-mt-price">₹69,000</div>
+                    <div class="lbl">Price / MT (Primary TMT)</div>
                 </div>
                 <div class="price-strip-item">
-                    <div class="val">₹69 / kg</div>
+                    <div class="val" id="strip-kg-price">₹69</div>
                     <div class="lbl">Price per Kilogram</div>
                 </div>
                 <div class="price-strip-item">
                     <div class="val">Fe 500 / 500D</div>
                     <div class="lbl">Available Grades</div>
                 </div>
-                <div class="price-strip-note">* Indicative prices. Contact us for live rates.</div>
+                <div class="price-strip-note" id="price-status-note">* Indicative prices. Fetching live rates...</div>
             </div>
 
             <!-- ── CALCULATOR 1: Building Estimator ── -->
@@ -671,7 +672,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <p style="font-size:.78rem;color:var(--gray);margin-top:12px;">* Cost based on indicative price of
+                    <p style="font-size:.78rem;color:var(--gray);margin-top:12px;" id="table-price-note">* Cost based on
+                        indicative price of
                         ₹69 per kg. Contact us for current live rates.</p>
                 </div>
             </div>
@@ -708,6 +710,7 @@
                 <ul class="footer-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
+                    <li><a href="prices.html">Today's Price</a></li>
                     <li><a href="products.html">Products</a></li>
                     <li><a href="units.html">Units Guide</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
@@ -742,7 +745,8 @@
                 </div>
             </div>
         </div>
-        <div class="footer-bottom"><span>© 2019 - <span id="current-year">2026</span> OK Steels. All rights reserved. | GST:
+        <div class="footer-bottom"><span>© 2019 - <span id="current-year">2026</span> OK Steels. All rights reserved. |
+                GST:
                 33ABGPL1219H2Z1</span><span>Trichy, Tamil Nadu, India</span></div>
     </footer>
 
@@ -763,7 +767,31 @@
             'residential-high': { 'load-bearing': 4.0, 'framed': 4.5, 'luxury': 5.0 },
             'commercial': { 'load-bearing': 4.5, 'framed': 5.5, 'luxury': 6.0 },
         };
-        const PRICE_PER_KG = 69; // ₹ indicative
+        let PRICE_PER_KG = 69; // default indicative
+
+        // Fetch live price for Primary TMT
+        async function syncLivePrice() {
+            try {
+                if (typeof window.fetchLivePrices !== 'function') {
+                    setTimeout(syncLivePrice, 100);
+                    return;
+                }
+                const prices = await window.fetchLivePrices();
+                if (prices) {
+                    const primaryTMT = prices.find(p => p.name.includes('TMT-PRI'));
+                    if (primaryTMT) {
+                        PRICE_PER_KG = primaryTMT.price / 1000;
+
+                        // Update UI
+                        document.getElementById('strip-mt-price').innerHTML = `₹${primaryTMT.price.toLocaleString('en-IN')} <span style="font-size:0.7rem; background:#25D366; color:#fff; padding:2px 6px; border-radius:4px; vertical-align:middle; margin-left:4px;">LIVE</span>`;
+                        document.getElementById('strip-kg-price').textContent = `₹${PRICE_PER_KG.toFixed(2)}`;
+                        document.getElementById('price-status-note').textContent = `* Live prices used as of ${new Date(primaryTMT.timestamp).toLocaleDateString()}`;
+                        document.getElementById('table-price-note').textContent = `* Cost based on live price of ₹${PRICE_PER_KG.toFixed(2)} per kg.`;
+                    }
+                }
+            } catch (e) { console.error("Sync error:", e); }
+        }
+        document.addEventListener('DOMContentLoaded', syncLivePrice);
 
         function fmt(n) {
             return n.toLocaleString('en-IN', { maximumFractionDigits: 1 });

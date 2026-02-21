@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>Today's Steel Prices – OK Steels | Real-time Pricing, Trichy</title>
+    <meta name="description"
+        content="Check the latest steel prices for TMT Re-bars, Structural Steel, and more at OK Steels. Updated daily with real-time market rates from official mills." />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+        .prices-hero {
+            padding: 140px 24px 80px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, var(--teal-dark) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prices-container {
+            max-width: 900px;
+            margin: -60px auto 80px;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .price-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            border: 1px solid var(--gray-mid);
+        }
+
+        .price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-mid);
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .price-table th {
+            text-align: left;
+            color: var(--gray);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 12px 16px;
+            background: var(--light);
+        }
+
+        .price-table td {
+            padding: 20px 16px;
+            border-bottom: 1px solid var(--gray-mid);
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        .price-value {
+            font-family: var(--font-head);
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 211, 102, 0.1);
+            color: #109d43;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: #25D366;
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(37, 211, 102, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        .last-updated {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        #price-list-body tr:last-child td {
+            border-bottom: none;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo" aria-label="OK Steels Home">
+                <div class="nav-logo-text">
+                    <span class="brand">OK STEELS</span>
+                    <span class="tagline">SAIL Authorised Dealer</span>
+                </div>
+            </a>
+            <ul class="nav-links" role="list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="prices.html" class="active">Today's Price</a></li>
+                <li class="nav-dropdown">
+                    <a href="products.html" class="nav-dropdown-toggle">Products &#9662;</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="products.html#tmt">TMT Re-bars</a></li>
+                        <li><a href="products.html#structural">Structural Steel</a></li>
+                        <li><a href="products.html#roofing">Roofing Sheets</a></li>
+                        <li><a href="products.html#plates">Plates</a></li>
+                        <li><a href="products.html#cr">CR Coils</a></li>
+                        <li class="nav-dropdown-divider"></li>
+                        <li><a href="tmt-rebars.html" class="nav-dropdown-highlight">TMT Re-bars Guide &#8594;</a></li>
+                        <li><a href="tmt-calculator.html" class="nav-dropdown-highlight">Steel Calculator &#8594;</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="units.html" class="nav-dropdown-toggle">Units Guide &#9662;</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="units.html#practical-formulas">Practical Formulas</a></li>
+                        <li><a href="units.html#weight-tables">Weight Tables</a></li>
+                        <li><a href="units.html#weightage">Product Weightage</a></li>
+                        <li><a href="units.html#quick-conv">Quick Conversions</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+            </ul>
+            <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <header class="prices-hero">
+        <h1 style="color:var(--white)">Current Market Rates</h1>
+        <p style="color:rgba(255,255,255,0.7); max-width:600px; margin: 12px auto 0;">
+            Real-time pricing for our most popular products. For bulk orders or custom requirements, contact our sales
+            team.
+        </p>
+    </header>
+
+    <main class="prices-container">
+        <div class="price-card">
+            <div class="price-header">
+                <div class="live-badge">
+                    <div class="pulse"></div>
+                    LIVE MARKET PRICE
+                </div>
+                <div class="last-updated" id="update-time">Updating...</div>
+            </div>
+
+            <div id="price-content">
+                <div class="loading-spinner">Fetching latest rates...</div>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:40px">
+            <p style="color:var(--gray); font-size:0.9rem">
+                * Prices are exclusive of GST and transportation unless specified. Rates are subject to change based on
+                market conditions.
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <span>© 2019 - <span id="current-year">2026</span> OK Steels. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const content = document.getElementById('price-content');
+            const timeLabel = document.getElementById('update-time');
+
+            try {
+                const prices = await window.fetchLivePrices();
+                if (prices && prices.length > 0) {
+                    let html = '<table class="price-table"><thead><tr><th>Product Name</th><th>Product ID</th><th>Unit</th><th>Rate (₹)</th></tr></thead><tbody id="price-list-body">';
+
+                    prices.forEach(p => {
+                        html += `
+              <tr>
+                <td><strong>${p.name}</strong></td>
+                <td><span style="font-family:monospace; font-size:0.9rem; color:var(--gray); background:var(--light); padding:2px 6px; border-radius:4px;">${p.id || 'N/A'}</span></td>
+                <td>${p.unit}</td>
+                <td class="price-value">₹${p.price.toLocaleString('en-IN')}</td>
+              </tr>
+            `;
+                    });
+
+                    html += '</tbody></table>';
+                    content.innerHTML = html;
+
+                    const lastDate = new Date(prices[0].timestamp);
+                    timeLabel.textContent = `Last Updated: ${lastDate.toLocaleDateString()} ${lastDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+                } else {
+                    content.innerHTML = '<div class="loading-spinner">Unable to load prices. Please contact us for current rates.</div>';
+                }
+            } catch (e) {
+                content.innerHTML = '<div class="loading-spinner">Error loading price data.</div>';
+            }
+        });
+    </script>
+</body>
+
+</html>

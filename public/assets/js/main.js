@@ -294,6 +294,105 @@ document.addEventListener('DOMContentLoaded', () => {
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
+
+  // ============================================
+  // LIVE PRICING API INTEGRATION
+  // ============================================
+  const PRICE_API = "https://script.google.com/macros/s/AKfycbwe6NkESpqbvfS_iSbKo6hnsqcvi_DhYz09QKg2Mn28SxREvuZ8aP8gLZ7NtB3nzfsx1g/exec";
+
+  window.fetchLivePrices = async function () {
+    // Check session storage first
+    const cached = sessionStorage.getItem('oks_live_prices');
+    if (cached) {
+      try {
+        const data = JSON.parse(cached);
+        const age = Date.now() - data.timestamp;
+        if (age < 3600000) return data.prices;
+      } catch (e) { sessionStorage.removeItem('oks_live_prices'); }
+    }
+
+    try {
+      const response = await fetch(PRICE_API);
+      const raw = await response.json();
+
+      const finalPrices = [];
+      const seenNames = new Set();
+
+      const isHeader = (name) => /^(timestamp|product|price|unit|current|product name|rate)$/i.test(name.trim());
+
+      const PREDEFINED_ORDER = [
+        "TMT-PRI", "TMT-SEC", "MS-ANG", "MS-CHN", "MS-BEM",
+        "MS-RND", "MS-WRD", "SHT-GP", "SHT-GC", "SHT-CLR",
+        "PLT-MS", "PLT-CHQ", "CR-COIL", "CR-SHT"
+      ];
+
+      const parseRecord = (item, isHeaderRow = false) => {
+        let fullName = "Unknown", price = 0, unit = "Per Tonne", ts = new Date().toISOString();
+        const entries = Object.entries(item);
+
+        entries.forEach(([k, v]) => {
+          const target = isHeaderRow ? k : v;
+          const s = String(target).trim();
+
+          if (s.includes('GMT') || s.match(/\d{4}-\d{2}-\d{2}/)) ts = s;
+          else if (s.includes('Per Tonne') || s.includes('kg')) unit = s;
+          else if (!isNaN(s) && Number(s) > 100) price = Number(s);
+          else if (s.length > 5 && !isHeader(s)) fullName = s;
+        });
+
+        // Split "Name (ID)" -> name and id
+        let name = fullName;
+        let id = "";
+        const idMatch = fullName.match(/\(([^)]+)\)/);
+        if (idMatch) {
+          id = idMatch[1];
+          name = fullName.replace(/\s?\([^)]+\)/, "").trim();
+        }
+
+        return { name, id, price, unit, timestamp: ts };
+      };
+
+      raw.forEach((item, index) => {
+        if (index === 0) {
+          const firstProduct = parseRecord(item, true);
+          if (firstProduct.name !== "Unknown" && !seenNames.has(firstProduct.id || firstProduct.name)) {
+            finalPrices.push(firstProduct);
+            seenNames.add(firstProduct.id || firstProduct.name);
+          }
+        }
+
+        const product = parseRecord(item, false);
+        if (product.name !== "Unknown" && !seenNames.has(product.id || product.name)) {
+          finalPrices.push(product);
+          seenNames.add(product.id || product.name);
+        }
+      });
+
+      // Sort by PREDEFINED_ORDER
+      finalPrices.sort((a, b) => {
+        let idxA = PREDEFINED_ORDER.indexOf(a.id);
+        let idxB = PREDEFINED_ORDER.indexOf(b.id);
+        if (idxA === -1) idxA = 999;
+        if (idxB === -1) idxB = 999;
+        return idxA - idxB;
+      });
+
+      if (finalPrices.length > 0) {
+        sessionStorage.setItem('oks_live_prices', JSON.stringify({
+          timestamp: Date.now(),
+          prices: finalPrices
+        }));
+      }
+
+      return finalPrices;
+    } catch (error) {
+      console.error("Error fetching live prices:", error);
+      return null;
+    }
+  };
+
+  // Initial fetch (non-blocking)
+  window.fetchLivePrices();
 });
 
 
