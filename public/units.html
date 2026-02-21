@@ -30,9 +30,92 @@
     <style>
         /* ── Page Hero ── */
         .units-hero {
-            background: linear-gradient(135deg, var(--dark) 0%, #0a1e30 60%, #061420 100%);
-            padding: 120px 24px 64px;
+            position: relative;
+            background: url('assets/images/units-banner.jpg') center/cover no-repeat;
+            padding: 120px 24px 72px;
             text-align: center;
+            overflow: hidden;
+        }
+
+        .units-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(6, 18, 28, .88) 0%, rgba(4, 14, 24, .78) 100%);
+            z-index: 0;
+        }
+
+        .units-hero>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Floating formula decorations */
+        .hero-formula {
+            position: absolute;
+            color: rgba(0, 184, 230, .18);
+            font-family: 'Rajdhani', var(--font-head), monospace;
+            font-weight: 700;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+        }
+
+        .hf-1 {
+            top: 22%;
+            left: 7%;
+            font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+            transform: rotate(-12deg);
+        }
+
+        .hf-2 {
+            bottom: 18%;
+            right: 8%;
+            font-size: clamp(1.2rem, 2vw, 2rem);
+            transform: rotate(8deg);
+        }
+
+        .hf-3 {
+            top: 55%;
+            left: 60%;
+            font-size: clamp(1rem, 1.6vw, 1.6rem);
+            transform: rotate(-4deg);
+        }
+
+        .hf-4 {
+            top: 30%;
+            right: 5%;
+            font-size: clamp(1rem, 1.5vw, 1.4rem);
+            transform: rotate(14deg);
+        }
+
+        /* Formula highlight bar in hero */
+        .hero-formula-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(0, 184, 230, .1);
+            border: 1px solid rgba(0, 184, 230, .25);
+            border-radius: 12px;
+            padding: 12px 28px;
+            margin-top: 22px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .hero-formula-bar code {
+            color: var(--primary);
+            font-size: .95rem;
+            font-weight: 700;
+            font-family: 'Rajdhani', monospace;
+            letter-spacing: .02em;
+        }
+
+        .hero-formula-bar span.sep {
+            color: rgba(255, 255, 255, .25);
+            font-size: .8rem;
         }
 
         .units-hero h1 {
@@ -330,8 +413,29 @@
             <ul class="nav-links" role="list">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="units.html">Units Guide</a></li>
+                <li class="nav-dropdown">
+                    <a href="products.html" class="nav-dropdown-toggle">Products &#9662;</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="products.html#tmt">TMT Re-bars</a></li>
+                        <li><a href="products.html#structural">Structural Steel</a></li>
+                        <li><a href="products.html#roofing">Roofing Sheets</a></li>
+                        <li><a href="products.html#plates">Plates</a></li>
+                        <li><a href="products.html#cr">CR Coils</a></li>
+                        <li class="nav-dropdown-divider"></li>
+                        <li><a href="tmt-rebars.html" class="nav-dropdown-highlight">TMT Re-bars Guide &#8594;</a></li>
+                        <li><a href="tmt-calculator.html" class="nav-dropdown-highlight">Steel Calculator &#8594;</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="units.html" class="nav-dropdown-toggle active">Units Guide &#9662;</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="units.html#practical-formulas">Practical Formulas</a></li>
+                        <li><a href="units.html#weight-tables">Weight Tables</a></li>
+                        <li><a href="units.html#weightage">Product Weightage</a></li>
+                        <li><a href="units.html#quick-conv">Quick Conversions</a></li>
+                    </ul>
+                </li>
                 <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
             </ul>
             <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
@@ -340,11 +444,26 @@
 
     <!-- HERO -->
     <header class="units-hero" role="banner">
+        <!-- Decorative floating formulas -->
+        <span class="hero-formula hf-1" aria-hidden="true">W = D² / 162</span>
+        <span class="hero-formula hf-2" aria-hidden="true">W = L × W × T × 7.85</span>
+        <span class="hero-formula hf-3" aria-hidden="true">1 MT = 1000 kg</span>
+        <span class="hero-formula hf-4" aria-hidden="true">1 Q = 100 kg</span>
+
         <span class="section-label">Reference Guide</span>
-        <h1>Steel Measurement Units</h1>
+        <h1>Steel Measurement &amp; Units Guide</h1>
         <p>Everything you need to know about how steel is measured, priced, and specified — from weight and length to
             gauge and area. A practical reference for buyers, engineers, and contractors.</p>
-        <nav class="breadcrumb" aria-label="Breadcrumb">
+
+        <!-- Formula highlight bar -->
+        <div class="hero-formula-bar" aria-label="Key formulas at a glance">
+            <code>W = D²/162</code><span class="sep">|</span>
+            <code>W = L×W×T×7.85</code><span class="sep">|</span>
+            <code>1 MT = 1,000 kg</code><span class="sep">|</span>
+            <code>1 Quintal = 100 kg</code>
+        </div>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb" style="margin-top:18px">
             <a href="index.html">Home</a><span>›</span><span aria-current="page">Units Guide</span>
         </nav>
         <div class="audience-row">
@@ -381,7 +500,9 @@
                     <li><a href="#area-units">Area Units</a></li>
                     <li><a href="#financial">Financial Units &amp; Rate</a></li>
                     <li><a href="#weight-per-meter">Weight per Meter Chart (TMT)</a></li>
+                    <li><a href="#practical-formulas">Commercial &amp; Practical Formulas</a></li>
                     <li><a href="#quick-conversions">Quick Conversions</a></li>
+                    <li><a href="#weightage">⚖️ Product Weightage</a></li>
                 </ul>
             </nav>
 
@@ -929,6 +1050,130 @@
                     and may vary slightly by manufacturer.</p>
             </section>
 
+            <!-- ── PRACTICAL FORMULAS (from Google Doc) ── -->
+            <section class="unit-section reveal" id="practical-formulas" aria-labelledby="pf-heading">
+                <div class="unit-section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path
+                            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                    </svg>
+                    Commercial Formulas
+                </div>
+                <h2 id="pf-heading">Commercial &amp; Practical Formulas</h2>
+                <p>These formulas bridge the gap between what engineers specify (dimensions) and what traders bill
+                    (weight). Master them to serve your clients accurately and confidently.</p>
+
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="unit-tag">D²/162</div>
+                        <h3>The Golden Formula — TMT &amp; MS Rounds</h3>
+                        <p>Calculate weight of any TMT bar or MS Round from its diameter.<br>
+                            <strong>Metric (kg/m): W = D² ÷ 162</strong><br>
+                            <strong>Imperial (kg/ft): W = D² ÷ 533</strong><br>
+                            Example: 12mm bar → 12² ÷ 162 = <strong>0.888 kg/m</strong>
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <div class="unit-tag">× 7.85</div>
+                        <h3>Plate &amp; Sheet Weight</h3>
+                        <p>For MS Plates, GC Sheets, and Chequered Plates.<br>
+                            <strong>Weight (kg) = Length (m) × Width (m) × Thickness (mm) × 7.85</strong><br>
+                            Based on mild steel density 7,850 kg/m³.<br>
+                            Example: 2m × 1m × 5mm = <strong>78.5 kg</strong>
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <div class="unit-tag">× 1,000</div>
+                        <h3>Price Conversion</h3>
+                        <p>Converting between price units for billing and quoting:<br>
+                            <strong>Price/tonne = Price/kg × 1,000</strong><br>
+                            <strong>Price of 1 rod (12m) = Weight/m × 12 × Price/kg</strong><br>
+                            Example: ₹60/kg → ₹60,000/MT
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-cards" style="margin-top:0">
+                    <div class="info-card">
+                        <div class="unit-tag">Bdl</div>
+                        <h3>TMT Bundle Reference</h3>
+                        <p>TMT bars are transported in bundles. For 8mm bars, <strong>1 Tonne ≈ 22 bundles</strong>
+                            (standard 10 rods/bundle). Bundle count varies by diameter — larger dia = fewer rods per
+                            bundle.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="unit-tag">G → mm</div>
+                        <h3>Gauge to mm (Roofing Sheets)</h3>
+                        <p>Roofing sheets are ordered by gauge. Higher gauge = thinner sheet.<br>
+                            <strong>24G = 0.56 mm</strong> · <strong>26G = 0.45 mm</strong><br>
+                            Always confirm gauge before ordering to meet structural requirements.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary table from Google Doc -->
+                <div class="table-wrap" style="margin-top:28px">
+                    <table>
+                        <caption
+                            style="caption-side:top;text-align:left;padding:10px 16px 8px;font-weight:600;color:var(--dark)">
+                            Quick Reference Summary — Product Units &amp; Conversion</caption>
+                        <thead>
+                            <tr>
+                                <th>Product Type</th>
+                                <th>Unit A (Buying / Spec)</th>
+                                <th>Unit B (Billing / Transport)</th>
+                                <th>Conversion Factor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>TMT Bars</strong></td>
+                                <td>Running Meters (RM)</td>
+                                <td>Kilograms (kg)</td>
+                                <td>D² ÷ 162 (kg/m)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MS Rounds</strong></td>
+                                <td>Running Meters (RM)</td>
+                                <td>Kilograms (kg)</td>
+                                <td>D² ÷ 162 (kg/m)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MS Plates / Chequered</strong></td>
+                                <td>Square Meters (sq.m)</td>
+                                <td>Kilograms (kg)</td>
+                                <td>L × W × T × 7.85</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Roofing Sheets (GC/GP)</strong></td>
+                                <td>Gauge (G) / sq.ft</td>
+                                <td>Millimeters (mm) / kg</td>
+                                <td>See Gauge Chart above</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bulk Steel Orders</strong></td>
+                                <td>Metric Tons (MT)</td>
+                                <td>Quintals (Q) / kg</td>
+                                <td>1 MT = 10 Q = 1,000 kg</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Angles / Channels / Beams</strong></td>
+                                <td>Nos / Running Meters</td>
+                                <td>Kilograms (kg)</td>
+                                <td>Per manufacturer weight table</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout" style="margin-top:20px">
+                    <strong>💡 Trader's Tip:</strong> Always use the formula <code
+                        style="color:var(--primary-dark);font-weight:700">W = D²/162</code> to cross-verify invoices for
+                    TMT bars — this single formula is the most important calculation in the steel trade.
+                </div>
+            </section>
+
             <!-- ── QUICK CONVERSIONS ── -->
             <section class="unit-section reveal" id="quick-conversions" aria-labelledby="conv-heading">
                 <div class="unit-section-label">
@@ -976,7 +1221,205 @@
                         <div class="eq">d² ÷ 162 = kg/m</div>
                         <div class="label">TMT Formula</div>
                     </div>
+                    <div class="conv-pill">
+                        <div class="eq">d² ÷ 533 = kg/ft</div>
+                        <div class="label">TMT Imperial</div>
+                    </div>
+                    <div class="conv-pill">
+                        <div class="eq">L×W×T×7.85 = kg</div>
+                        <div class="label">Plate Weight</div>
+                    </div>
+                    <div class="conv-pill">
+                        <div class="eq">1 MT = 10 Quintals</div>
+                        <div class="label">Weight</div>
+                    </div>
+                    <div class="conv-pill">
+                        <div class="eq">Price/kg × 1000 = Price/MT</div>
+                        <div class="label">Price Conversion</div>
+                    </div>
                 </div>
+            </section>
+
+            <!-- ── WEIGHTAGE SECTION ── -->
+            <section class="unit-section reveal" id="weightage" style="scroll-margin-top:80px">
+                <div class="section-badge">Weightage</div>
+                <h2 class="section-h2">Product Weight Reference</h2>
+                <p class="section-intro">Quick-reference weight data for our top-selling products — ideal for counter
+                    sales, billing, and estimation.</p>
+
+                <!-- TMT Re-Bars Table -->
+                <div class="weight-subsection">
+                    <h3 class="weight-subheading">🔩 TMT Re-bars (Standard 12-Meter Length)</h3>
+                    <p class="weight-note-small"><em>Primary use: Reinforcement for Slabs, Columns, and Beams. Formula:
+                            W = D²/162 (kg/m)</em></p>
+                    <div class="responsive-table-wrap">
+                        <table class="unit-table">
+                            <thead>
+                                <tr>
+                                    <th>Diameter (mm)</th>
+                                    <th>Weight / Meter</th>
+                                    <th>Weight / Rod (12m)</th>
+                                    <th>Rods / Bundle</th>
+                                    <th>Bundle Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>8 mm</strong></td>
+                                    <td>0.395 kg</td>
+                                    <td>4.74 kg</td>
+                                    <td>10 Nos</td>
+                                    <td>~47.4 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>10 mm</strong></td>
+                                    <td>0.617 kg</td>
+                                    <td>7.40 kg</td>
+                                    <td>7 Nos</td>
+                                    <td>~51.8 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>12 mm</strong></td>
+                                    <td>0.888 kg</td>
+                                    <td>10.66 kg</td>
+                                    <td>5 Nos</td>
+                                    <td>~53.3 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>16 mm</strong></td>
+                                    <td>1.580 kg</td>
+                                    <td>18.96 kg</td>
+                                    <td>3 Nos</td>
+                                    <td>~56.9 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>20 mm</strong></td>
+                                    <td>2.470 kg</td>
+                                    <td>29.64 kg</td>
+                                    <td>2 Nos</td>
+                                    <td>~59.3 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>25 mm</strong></td>
+                                    <td>3.850 kg</td>
+                                    <td>46.20 kg</td>
+                                    <td>1 No</td>
+                                    <td>46.2 kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- MS Angles Table -->
+                <div class="weight-subsection">
+                    <h3 class="weight-subheading">📐 MS Angles (Standard 6-Meter Length)</h3>
+                    <p class="weight-note-small"><em>Used for Trusses, Frames, and Gates.</em></p>
+                    <div class="responsive-table-wrap">
+                        <table class="unit-table">
+                            <thead>
+                                <tr>
+                                    <th>Size (mm)</th>
+                                    <th>Weight / Meter</th>
+                                    <th>Weight / Piece (6m)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>25 × 3</strong></td>
+                                    <td>1.1 kg</td>
+                                    <td>6.6 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>35 × 5</strong></td>
+                                    <td>2.6 kg</td>
+                                    <td>15.6 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>40 × 5</strong></td>
+                                    <td>3.0 kg</td>
+                                    <td>18.0 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>50 × 6</strong></td>
+                                    <td>4.5 kg</td>
+                                    <td>27.0 kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- MS Channels Table -->
+                <div class="weight-subsection">
+                    <h3 class="weight-subheading">🏗️ MS Channels / ISMC (Standard 6-Meter Length)</h3>
+                    <div class="responsive-table-wrap">
+                        <table class="unit-table">
+                            <thead>
+                                <tr>
+                                    <th>Size (ISMC)</th>
+                                    <th>Weight / Meter</th>
+                                    <th>Weight / Piece (6m)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>ISMC 75</strong></td>
+                                    <td>7.14 kg</td>
+                                    <td>42.8 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ISMC 100</strong></td>
+                                    <td>9.56 kg</td>
+                                    <td>57.4 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ISMC 125</strong></td>
+                                    <td>13.1 kg</td>
+                                    <td>78.6 kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ISMC 150</strong></td>
+                                    <td>16.8 kg</td>
+                                    <td>100.8 kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Plates & Roofing Formulas -->
+                <div class="weight-subsection">
+                    <h3 class="weight-subheading">🧮 MS Plates &amp; Roofing — Calculation Formulas</h3>
+                    <div class="formula-cards-grid">
+                        <div class="formula-card-item">
+                            <div class="formula-badge">MS Plate Weight</div>
+                            <div class="formula-display">L(m) × W(m) × T(mm) × 7.85 = kg</div>
+                            <div class="formula-example">e.g. 2m × 1m × 6mm × 7.85 = 94.2 kg</div>
+                        </div>
+                        <div class="formula-card-item">
+                            <div class="formula-badge">Roofing Sheets</div>
+                            <div class="formula-display">Standard width: 3.5 ft (1.07 m)</div>
+                            <div class="formula-example">Common gauges: 24G (0.60mm) · 26G (0.45mm) · 28G (0.35mm)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Billing Shortcuts callout -->
+                <div class="pro-tip-callout reveal" style="margin-top:32px">
+                    <div class="callout-icon">💡</div>
+                    <div>
+                        <h4>Quick Billing Shortcuts</h4>
+                        <ul style="color:var(--gray);font-size:.88rem;line-height:2;padding-left:20px;margin:0;">
+                            <li><strong>1 Tonne</strong> = 1,000 kg &nbsp;|&nbsp; <strong>1 Quintal</strong> = 100 kg
+                            </li>
+                            <li>Standard Density of Steel: <strong>7850 kg/m³</strong></li>
+                            <li>Weight formula for Rounds: <strong>D²/162</strong> (kg per meter)</li>
+                            <li>Price conversion: <strong>Price/kg × 1000 = Price/MT</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
             </section>
 
             <!-- CTA -->
@@ -1005,8 +1448,30 @@
                 <ul class="footer-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="units.html">Units Guide</a></li>
+                    <li class="nav-dropdown">
+                        <a href="products.html" class="nav-dropdown-toggle">Products &#9662;</a>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="products.html#tmt">TMT Re-bars</a></li>
+                            <li><a href="products.html#structural">Structural Steel</a></li>
+                            <li><a href="products.html#roofing">Roofing Sheets</a></li>
+                            <li><a href="products.html#plates">Plates</a></li>
+                            <li><a href="products.html#cr">CR Coils</a></li>
+                            <li class="nav-dropdown-divider"></li>
+                            <li><a href="tmt-rebars.html" class="nav-dropdown-highlight">TMT Re-bars Guide &#8594;</a>
+                            </li>
+                            <li><a href="tmt-calculator.html" class="nav-dropdown-highlight">Steel Calculator
+                                    &#8594;</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="units.html" class="nav-dropdown-toggle active">Units Guide &#9662;</a>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="units.html#practical-formulas">Practical Formulas</a></li>
+                            <li><a href="units.html#weight-tables">Weight Tables</a></li>
+                            <li><a href="units.html#weightage">Product Weightage</a></li>
+                            <li><a href="units.html#quick-conv">Quick Conversions</a></li>
+                        </ul>
+                    </li>
                     <li><a href="contact.html">Contact Us</a></li>
                 </ul>
             </div>
@@ -1041,18 +1506,16 @@
                 </div>
             </div>
         </div>
-        <div class="footer-bottom"><span>© 2025 OK Steels. All rights reserved. | GST:
+        <div class="footer-bottom"><span>© 2019 - <span id="current-year">2026</span> OK Steels. All rights reserved. | GST:
                 33ABGPL1219H2Z1</span><span>Trichy, Tamil Nadu, India</span></div>
     </footer>
 
     <a href="https://wa.me/919894433229" target="_blank" rel="noopener noreferrer" class="whatsapp-fab"
-        aria-label="Chat with OK Steels on WhatsApp">
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white">
+        aria-label="Chat with OK Steels on WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+            viewBox="0 0 24 24" fill="white">
             <path
                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-        </svg>
-        <span class="fab-text">Chat on WhatsApp</span>
-    </a>
+        </svg></a>
 
     <script src="assets/js/main.js"></script>
 </body>

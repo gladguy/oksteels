@@ -74,8 +74,28 @@
       <ul class="nav-links" role="list">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="units.html">Units Guide</a></li>
+        <li class="nav-dropdown">
+          <a href="products.html" class="nav-dropdown-toggle">Products &#9662;</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="products.html#tmt">TMT Re-bars</a></li>
+            <li><a href="products.html#structural">Structural Steel</a></li>
+            <li><a href="products.html#roofing">Roofing Sheets</a></li>
+            <li><a href="products.html#plates">Plates</a></li>
+            <li><a href="products.html#cr">CR Coils</a></li>
+            <li class="nav-dropdown-divider"></li>
+            <li><a href="tmt-rebars.html" class="nav-dropdown-highlight">TMT Re-bars Guide &#8594;</a></li>
+            <li><a href="tmt-calculator.html" class="nav-dropdown-highlight">Steel Calculator &#8594;</a></li>
+          </ul>
+        </li>
+        <li class="nav-dropdown">
+          <a href="units.html" class="nav-dropdown-toggle">Units Guide &#9662;</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="units.html#practical-formulas">Practical Formulas</a></li>
+            <li><a href="units.html#weight-tables">Weight Tables</a></li>
+            <li><a href="units.html#weightage">Product Weightage</a></li>
+            <li><a href="units.html#quick-conv">Quick Conversions</a></li>
+          </ul>
+        </li>
         <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
       </ul>
       <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -94,11 +114,11 @@
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
-      <video id="popup-video" class="vp-video" controls playsinline preload="metadata">
+      <video id="popup-video" class="vp-video" playsinline preload="metadata">
         <source src="assets/videos/oksteels-logo.mp4" type="video/mp4" />
       </video>
       <div class="vp-footer">
-        <span class="vp-label">✦ OK Steels – Steel with Confidence</span>
+        <span class="vp-label">✦ OK Steels - Think Steel, Think OK Steels</span>
         <button class="vp-skip" id="vp-skip-btn">Skip Video</button>
       </div>
     </div>
@@ -229,30 +249,38 @@
     </div>
   </div>
 
-  <!-- ===== INLINE VIDEO SECTION ===== -->
-  <section class="video-section" id="brand-video" aria-labelledby="video-section-heading">
-    <div class="container">
-      <div class="section-center reveal">
-        <span class="section-label">Brand Story</span>
-        <h2 class="section-title" id="video-section-heading">See Steel in Motion</h2>
-        <p style="max-width:520px;margin:0 auto 28px;color:var(--gray)">Watch how OK Steels delivers quality steel
-          across Tamil Nadu — from our yard to your site.</p>
-      </div>
-      <div class="inline-player reveal">
-        <video id="inline-video" class="inline-video-el" controls playsinline preload="metadata"
-          poster="assets/images/logo.png">
-          <source src="assets/videos/oksteels-logo.mp4" type="video/mp4" />
-        </video>
-        <div class="inline-player-overlay" id="inline-play-overlay" role="button" tabindex="0" aria-label="Play video">
-          <div class="inline-play-btn">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
-              <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-          </div>
-          <span>Play Video</span>
-        </div>
-      </div>
+  <!-- ===== BACKGROUND VIDEO SECTION ===== -->
+  <section class="video-bg-section" id="brand-video" aria-label="OK Steels brand video">
+    <video id="inline-video" class="video-bg-el" autoplay loop muted playsinline>
+      <source src="assets/videos/oksteels-logo.mp4" type="video/mp4" />
+    </video>
+    <!-- Subtle overlay for text legibility -->
+    <div class="video-bg-overlay" aria-hidden="true"></div>
+    <!-- Section content centered above video -->
+    <div class="video-bg-content">
+      <span class="section-label" style="color:rgba(255,255,255,.7)">Brand Story</span>
+      <h2 class="section-title" style="color:#fff;margin-top:8px" id="video-section-heading">See Steel in Motion</h2>
+      <p style="color:rgba(255,255,255,.65);max-width:480px;margin:10px auto 0;font-size:.95rem">
+        From our yard to your site — quality steel across Tamil Nadu.
+      </p>
     </div>
+    <!-- Sound toggle icon -->
+    <button class="sound-toggle" id="sound-toggle-btn" aria-label="Toggle sound" title="Toggle sound">
+      <!-- Muted icon (shown by default) -->
+      <svg id="icon-muted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+        <line x1="23" y1="9" x2="17" y2="15" />
+        <line x1="17" y1="9" x2="23" y2="15" />
+      </svg>
+      <!-- Unmuted icon (hidden by default) -->
+      <svg id="icon-sound" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+      </svg>
+    </button>
   </section>
 
   <!-- ===== ABOUT STRIP ===== -->
@@ -719,7 +747,28 @@
         <ul class="footer-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About Us</a></li>
-          <li><a href="products.html">Products</a></li>
+          <li class="nav-dropdown">
+            <a href="products.html" class="nav-dropdown-toggle">Products &#9662;</a>
+            <ul class="nav-dropdown-menu">
+              <li><a href="products.html#tmt">TMT Re-bars</a></li>
+              <li><a href="products.html#structural">Structural Steel</a></li>
+              <li><a href="products.html#roofing">Roofing Sheets</a></li>
+              <li><a href="products.html#plates">Plates</a></li>
+              <li><a href="products.html#cr">CR Coils</a></li>
+              <li class="nav-dropdown-divider"></li>
+              <li><a href="tmt-rebars.html" class="nav-dropdown-highlight">TMT Re-bars Guide &#8594;</a></li>
+              <li><a href="tmt-calculator.html" class="nav-dropdown-highlight">Steel Calculator &#8594;</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <a href="units.html" class="nav-dropdown-toggle">Units Guide &#9662;</a>
+            <ul class="nav-dropdown-menu">
+              <li><a href="units.html#practical-formulas">Practical Formulas</a></li>
+              <li><a href="units.html#weight-tables">Weight Tables</a></li>
+              <li><a href="units.html#weightage">Product Weightage</a></li>
+              <li><a href="units.html#quick-conv">Quick Conversions</a></li>
+            </ul>
+          </li>
           <li><a href="contact.html">Contact Us</a></li>
           <li><a href="#enquiry">Enquiry Form</a></li>
         </ul>
@@ -769,20 +818,18 @@
     </div>
 
     <div class="footer-bottom">
-      <span>© 2025 OK Steels. All rights reserved. | GST: 33ABGPL1219H2Z1</span>
+      <span>© 2019 - <span id="current-year">2026</span> OK Steels. All rights reserved. | GST: 33ABGPL1219H2Z1</span>
       <span>Trichy, Tamil Nadu, India</span>
     </div>
   </footer>
 
   <!-- ===== WHATSAPP FAB ===== -->
   <a href="https://wa.me/919894433229" target="_blank" rel="noopener noreferrer" class="whatsapp-fab" id="whatsapp-fab"
-    aria-label="Chat with OK Steels on WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+    aria-label="Chat with OK Steels on WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+      viewBox="0 0 24 24" fill="white">
       <path
         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-    </svg>
-    <span class="fab-text">Chat on WhatsApp</span>
-  </a>
+    </svg></a>
 
   <script src="assets/js/main.js"></script>
 </body>

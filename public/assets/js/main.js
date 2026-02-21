@@ -157,4 +157,143 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // ============================================
+  // VIDEO POPUP — one-time autoplay on homepage
+  // ============================================
+  const popup = document.getElementById('video-popup');
+  const popupVid = document.getElementById('popup-video');
+  const closeBtn = document.getElementById('vp-close-btn');
+  const skipBtn = document.getElementById('vp-skip-btn');
+  const watchBtn = document.getElementById('hero-watch-btn');
+
+  const STORAGE_KEY = 'oks_intro_played';
+
+  function openPopup() {
+    if (!popup) return;
+    popup.hidden = false;
+    document.body.style.overflow = 'hidden';
+    // Small delay so the animation plays after display
+    setTimeout(() => {
+      popupVid.play().catch(() => { });
+    }, 350);
+  }
+
+  function closePopup() {
+    if (!popup) return;
+    popupVid.pause();
+    popupVid.currentTime = 0;
+    popup.hidden = true;
+    document.body.style.overflow = '';
+    localStorage.setItem(STORAGE_KEY, '1');
+  }
+
+  // Auto-open popup only on homepage and only if not previously played
+  const isHome = ['', '/', 'index.html'].includes(
+    window.location.pathname.split('/').pop()
+  );
+  if (popup && isHome && !localStorage.getItem(STORAGE_KEY)) {
+    // Give the page a beat to fully render first
+    setTimeout(openPopup, 800);
+  }
+
+  // Close on X button
+  if (closeBtn) closeBtn.addEventListener('click', closePopup);
+  // Close on Skip
+  if (skipBtn) skipBtn.addEventListener('click', closePopup);
+  // Close on overlay backdrop click (not on the vp-box)
+  if (popup) {
+    popup.addEventListener('click', e => {
+      if (e.target === popup) closePopup();
+    });
+  }
+  // Esc key closes popup
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && popup && !popup.hidden) closePopup();
+  });
+  // When video finishes mark as played
+  if (popupVid) {
+    popupVid.addEventListener('ended', () => {
+      closePopup();
+    });
+  }
+
+  // Hero "Watch Video" button always re-opens popup
+  if (watchBtn) {
+    watchBtn.addEventListener('click', openPopup);
+  }
+
+  // ============================================
+  // BACKGROUND VIDEO — sound toggle
+  // ============================================
+  const bgVid = document.getElementById('inline-video');
+  const soundBtn = document.getElementById('sound-toggle-btn');
+  const iconMuted = document.getElementById('icon-muted');
+  const iconSound = document.getElementById('icon-sound');
+
+  function setMuteState(muted) {
+    if (!bgVid) return;
+    bgVid.muted = muted;
+    if (iconMuted) iconMuted.style.display = muted ? '' : 'none';
+    if (iconSound) iconSound.style.display = muted ? 'none' : '';
+    if (soundBtn) soundBtn.setAttribute('aria-label', muted ? 'Unmute video' : 'Mute video');
+  }
+
+  // Sound toggle button
+  if (soundBtn && bgVid) {
+    soundBtn.addEventListener('click', e => {
+      e.stopPropagation(); // don't bubble to page click handler
+      setMuteState(!bgVid.muted);
+    });
+  }
+
+  // Optional: clicking anywhere on the video section also unmutes (first time)
+  const bgSection = document.getElementById('brand-video');
+  let pageClickUnmuted = false;
+  if (bgSection && bgVid) {
+    bgSection.addEventListener('click', e => {
+      // Only unmute on section click if not already unmuted and not clicking the button
+      if (!pageClickUnmuted && bgVid.muted) {
+        setMuteState(false);
+        pageClickUnmuted = true;
+      }
+    });
+  }
+
+  // ============================================
+  // PRODUCT IMAGE SWITCHER (products.html)
+  // ============================================
+  document.querySelectorAll('.prod-card[data-img]').forEach(card => {
+    card.addEventListener('click', () => {
+      const imgId = card.dataset.img;
+      const newSrc = card.dataset.src;
+      const newCap = card.dataset.cap;
+      const img = document.getElementById(imgId);
+      const cap = document.getElementById(imgId + '-cap');
+      if (!img || !newSrc) return;
+
+      // Deactivate sibling cards in same group
+      const group = card.closest('.prod-group');
+      if (group) {
+        group.querySelectorAll('.prod-card[data-img]').forEach(c => c.classList.remove('active'));
+      }
+      card.classList.add('active');
+
+      // Crossfade image
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = newSrc;
+        img.onload = () => { img.style.opacity = '1'; };
+        if (cap && newCap) cap.innerHTML = newCap;
+      }, 200);
+    });
+  });
+
+  // Dynamic Year Update
+  const yearSpan = document.getElementById('current-year');
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
 });
+
+
